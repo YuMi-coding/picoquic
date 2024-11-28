@@ -5595,7 +5595,7 @@ const uint8_t* picoquic_decode_path_available_or_standby_frame(const uint8_t* by
 
                 // YM: set the path as standby if it is not path 0
                 if (path_number != 0) {
-                    printf("Set path %d as standby\n", path_number);
+                    fprintf(stdout, "Set path %d as standby\n", path_number);
                     cnx->path[path_number]->path_is_standby = 1;
                 }
             }
