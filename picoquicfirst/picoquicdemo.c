@@ -126,8 +126,10 @@ static int server_loop_cb(picoquic_quic_t* quic, picoquic_packet_loop_cb_enum cb
         case picoquic_packet_loop_after_receive:
             break;
         case picoquic_packet_loop_after_send:
-            struct picoquic_packet_loop_after_send_arg_t* send_arg = (struct picoquick_packet_loop_after_send_arg_t*)callback_arg;
-            fprintf(stdout, "Packet sent %d bytes, on socket rank %d.\n", send_arg->nb_bytes_sent, send_arg->socket_rank);
+            struct picoquic_packet_loop_after_send_arg_t* send_arg = 
+                (struct picoquick_packet_loop_after_send_arg_t*)callback_arg;
+            fprintf(stdout, "Packet sent %ld bytes, on socket rank %d.\n", 
+                    send_arg->nb_bytes_sent, send_arg->socket_rank);
             break;
         case picoquic_packet_loop_port_update:
             break;

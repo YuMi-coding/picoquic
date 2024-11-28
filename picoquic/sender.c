@@ -4064,7 +4064,15 @@ static int picoquic_select_next_path_mp(picoquic_cnx_t* cnx, uint64_t current_ti
     }
 
     for (i = 0; i < cnx->nb_paths; i++) {
+
         int path_priority = (cnx->path[i]->path_is_standby) ? 0 : 1;
+
+        if (i == 0){
+        // YM: QUIC want path 0 always available, make them happy
+            path_priority = 0;
+        }
+
+
         cnx->path[i]->is_probing_nat = 0;
         if (cnx->path[i]->nb_retransmit > 0) {
             path_priority = 0;
