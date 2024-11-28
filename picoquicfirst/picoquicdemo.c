@@ -126,8 +126,12 @@ static int server_loop_cb(picoquic_quic_t* quic, picoquic_packet_loop_cb_enum cb
         case picoquic_packet_loop_after_receive:
             break;
         case picoquic_packet_loop_after_send:
+            fprintf(stdout, "Packet sent %d bytes.\n", *(int*)callback_arg);
             break;
         case picoquic_packet_loop_port_update:
+            break;
+        case picoquic_packet_loop_alt_port:
+            fprintf(stdout, "Switching to alt port.\n");
             break;
         default:
             ret = PICOQUIC_ERROR_UNEXPECTED_ERROR;
