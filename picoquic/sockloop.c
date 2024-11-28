@@ -735,6 +735,8 @@ void* picoquic_packet_loop_v3(void* v_ctx)
     picoquic_packet_loop_options_t options = { 0 };
     packet_loop_system_call_duration_t sc_duration = { 0 };
 
+    int socket_rank = -1;
+
     int is_wake_up_event;
 #ifdef _WINDOWS
     WSADATA wsaData = { 0 };
@@ -967,8 +969,10 @@ void* picoquic_packet_loop_v3(void* v_ctx)
                     for (int i = 0; i < nb_sockets_available; i++) {
                         if (s_ctx[i].af == peer_addr.ss_family) {
                             send_socket = s_ctx[i].fd;
-                            if (send_port != 0 && htons(s_ctx[i].port) == send_port)
+                            socket_rank = i;
+                            if (send_port != 0 && htons(s_ctx[i].port) == send_port){
                                 break;
+                            }
                         }
                     }
 
@@ -1047,7 +1051,11 @@ void* picoquic_packet_loop_v3(void* v_ctx)
             }
 
             if (ret == 0 && loop_callback != NULL) {
-                ret = loop_callback(quic, picoquic_packet_loop_after_send, loop_callback_ctx, &bytes_sent);
+                struct picoquic_packet_loop_after_send_arg_t arg = {
+                    .nb_bytes_sent = bytes_sent,
+                    .socket_rank = socket_rank,
+                };
+                ret = loop_callback(quic, picoquic_packet_loop_after_send, loop_callback_ctx, &arg);
             }
         }
     }

@@ -83,6 +83,11 @@ typedef enum {
     picoquic_packet_loop_alt_port /* Provide alt port for testing multipath or migration */
 } picoquic_packet_loop_cb_enum;
 
+struct picoquic_packet_loop_after_send_arg_t {
+    size_t nb_bytes_sent;
+    int socket_rank;
+};
+
 /* System call statistics.
 * The socket loop uses 'zero delay' calls to check whether
 * more packets are ready to be received. In theory, these calls
