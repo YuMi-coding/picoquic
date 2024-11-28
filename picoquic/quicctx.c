@@ -2441,6 +2441,8 @@ int picoquic_set_path_status(picoquic_cnx_t* cnx, uint64_t unique_path_id, picoq
     int path_id = picoquic_get_path_id_from_unique(cnx, unique_path_id);
     if (path_id >= 1) {
         cnx->path[path_id]->path_is_standby = picoquic_path_status_standby;
+
+        printf("picoquic_set_path_status: path_id = %d, path_is_standby = %d\n", path_id, cnx->path[path_id]->path_is_standby);
         ret = picoquic_queue_path_available_or_standby_frame(cnx, cnx->path[path_id], status);
     }
     return ret;
