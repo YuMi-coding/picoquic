@@ -4263,7 +4263,7 @@ static int picoquic_select_next_path_mp(picoquic_cnx_t* cnx, uint64_t current_ti
         // YM: QUIC want path 0 to be always available, make them happy
         for (i = 1; i < cnx->nb_paths; i++) {
             if(cnx->path[i]->challenge_verified && !cnx->path[i]->path_is_demoted){ 
-                path1_active = 1;
+                path1_active = i;
                 (void)picoquic_set_path_status(cnx, cnx->path[0]->unique_path_id, picoquic_path_status_standby);
                 break;
             }
@@ -4408,7 +4408,7 @@ static int picoquic_select_next_path_mp(picoquic_cnx_t* cnx, uint64_t current_ti
     for (i += 1; i < cnx->nb_paths; i++) {
         cnx->path[i]->is_nominal_ack_path = 0;
     }
-        if (i_min_rtt >= 0) {
+    if (i_min_rtt >= 0) {
         is_ack_needed = picoquic_is_ack_needed(cnx, current_time, next_wake_time, 0, 0);
         cnx->path[i_min_rtt]->is_nominal_ack_path = 1;
     }
