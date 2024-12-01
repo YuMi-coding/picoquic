@@ -4260,6 +4260,7 @@ static int picoquic_select_next_path_mp(picoquic_cnx_t* cnx, uint64_t current_ti
 
     int path1_active = 0;
     if(cnx->nb_paths > 1){
+        // YM: QUIC want path 0 to be always available, make them happy
         for (i = 1; i < cnx->nb_paths; i++) {
             if(cnx->path[i]->challenge_verified && !cnx->path[i]->path_is_demoted){ 
                 path1_active = 1;
