@@ -4260,7 +4260,7 @@ static int picoquic_select_next_path_mp(picoquic_cnx_t* cnx, uint64_t current_ti
 
     int path1_active = 0;
     if(cnx->nb_paths > 1){
-        for (i = 0; i < cnx->nb_paths; i++) {
+        for (i = 1; i < cnx->nb_paths; i++) {
             if(cnx->path[i]->challenge_verified && !cnx->path[i]->path_is_demoted){ 
                 path1_active = 1;
                 (void)picoquic_set_path_status(cnx, cnx->path[0]->unique_path_id, picoquic_path_status_standby);
